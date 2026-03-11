@@ -3,7 +3,7 @@ module github.com/RAiWorks/RapidGo-starter
 go 1.25.0
 
 require (
-	github.com/RAiWorks/RapidGo/v2 v2.0.0
+	github.com/RAiWorks/RapidGo/v2 v2.1.0
 	github.com/gin-gonic/gin v1.12.0
 	github.com/glebarez/sqlite v1.11.0
 	github.com/redis/go-redis/v9 v9.18.0

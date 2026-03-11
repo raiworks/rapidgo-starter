@@ -36,3 +36,9 @@ func (u *User) BeforeCreate(tx *gorm.DB) error {
 	}
 	return nil
 }
+
+// NotifiableID returns the user's ID for the notification system.
+func (u *User) NotifiableID() uint { return u.ID }
+
+// NotifiableEmail returns the user's email for mail notifications.
+func (u *User) NotifiableEmail() string { return u.Email }

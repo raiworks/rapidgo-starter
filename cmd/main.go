@@ -29,6 +29,9 @@ func main() {
 		}
 		a.Register(&providers.MiddlewareProvider{Mode: mode})
 		a.Register(&providers.RouterProvider{Mode: mode})
+		if mode.Has(service.ModeWeb) || mode.Has(service.ModeAPI) {
+			a.Register(&providers.NotificationProvider{})
+		}
 	})
 
 	cli.SetRoutes(func(r *router.Router, c *container.Container, mode service.Mode) {

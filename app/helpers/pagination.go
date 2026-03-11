@@ -1,43 +1,22 @@
 package helpers
 
-import "gorm.io/gorm"
+import (
+	"github.com/RAiWorks/RapidGo/v2/database"
+	"gorm.io/gorm"
+)
 
-// PaginateResult holds pagination metadata returned by Paginate.
-type PaginateResult struct {
-	Page       int   `json:"page"`
-	PerPage    int   `json:"per_page"`
-	Total      int64 `json:"total"`
-	TotalPages int   `json:"total_pages"`
+// PaginateResult is an alias for the framework's PageResult.
+type PaginateResult = database.PageResult
+
+// CursorResult is an alias for the framework's CursorResult.
+type CursorResult = database.CursorResult
+
+// Paginate delegates to the framework's offset-based pagination.
+func Paginate(db *gorm.DB, page, perPage int, dest interface{}) (*PaginateResult, error) {
+	return database.Paginate(db, page, perPage, dest)
 }
 
-// Paginate executes a counted, offset/limit query on db and populates dest.
-// page is clamped to a minimum of 1. perPage is clamped to 15 if outside [1,100].
-func Paginate(db *gorm.DB, page, perPage int, dest interface{}) (*PaginateResult, error) {
-	if page < 1 {
-		page = 1
-	}
-	if perPage < 1 || perPage > 100 {
-		perPage = 15
-	}
-
-	var total int64
-	db.Count(&total)
-
-	offset := (page - 1) * perPage
-	err := db.Offset(offset).Limit(perPage).Find(dest).Error
-
-	var totalPages int
-	if total > 0 {
-		totalPages = int(total) / perPage
-		if int(total)%perPage != 0 {
-			totalPages++
-		}
-	}
-
-	return &PaginateResult{
-		Page:       page,
-		PerPage:    perPage,
-		Total:      total,
-		TotalPages: totalPages,
-	}, err
+// CursorPaginate delegates to the framework's cursor-based pagination.
+func CursorPaginate(db *gorm.DB, cursor, orderCol string, perPage int, direction string, dest interface{}) (*CursorResult, error) {
+	return database.CursorPaginate(db, cursor, orderCol, perPage, direction, dest)
 }

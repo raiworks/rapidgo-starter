@@ -7,5 +7,6 @@ func All() []interface{} {
 		&User{},
 		&Post{},
 		&AuditLog{},
+		&NotificationRecord{},
 	}
 }

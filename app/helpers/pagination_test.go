@@ -53,7 +53,7 @@ func TestPaginate_PerPageTooLow(t *testing.T) {
 	}
 }
 
-// TC-03: PerPage > 100 clamped to 15.
+// TC-03: PerPage > 100 clamped to 100.
 func TestPaginate_PerPageTooHigh(t *testing.T) {
 	db := setupPaginationDB(t, 5)
 	var dest []paginationItem
@@ -61,8 +61,8 @@ func TestPaginate_PerPageTooHigh(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Paginate: %v", err)
 	}
-	if result.PerPage != 15 {
-		t.Fatalf("PerPage = %d, want 15", result.PerPage)
+	if result.PerPage != 100 {
+		t.Fatalf("PerPage = %d, want 100", result.PerPage)
 	}
 }
 
